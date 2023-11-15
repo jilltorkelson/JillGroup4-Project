@@ -9,10 +9,10 @@ class Shuttle(models.Model):
     """Model representing an Shuttle."""
     shuttle_id = models.UUIDField(primary_key=True, default=uuid.uuid4,
                                      help_text='Unique ID for this particular shuttle')
-
     name = models.CharField(max_length=100)
     capacity = models.IntegerField()
     color = models.CharField(max_length=100)
+    operated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         ordering = ['capacity', 'color']
@@ -43,7 +43,8 @@ class ShuttleSchedule(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.id}'
+        return f'{self.shuttle_sched_id}'
+
 
 class Ticket(models.Model):
     """Model representing an Shuttle_schedule."""
@@ -66,16 +67,16 @@ class Ticket(models.Model):
         """String for representing the Model object."""
         return f'{self.ticket_number}'
 
-    def is_past(self):
-        """Boolean to determine if ticket is in the past"""
-        return bool(self.shuttle_schd_id.schd_date and date.today() < self.shuttle_schd_id.schd_date)
+#    def is_past(self):
+#        """Boolean to determine if ticket is in the past"""
+#        return bool(self.shuttle_schd_id.schd_date and date.today() < self.shuttle_schd_id.schd_date)
 
 ##    def is_today(self):
-        """Boolean to determine if ticket is today"""
+#        """Boolean to determine if ticket is today"""
 ##        return bool(self.schd_date == date.today)
 
 ##    def refundable(self):
-        """Boolean to determine if ticket is still refundable (more than 24 hours in advance)"""
+#        """Boolean to determine if ticket is still refundable (more than 24 hours in advance)"""
 ## THIS IS WRONG CALC - NEEDS TO DETERMINE IF MORE THAN 1 DAY
 ##        return bool(self.schd_date and date.today < self.schd_date)
 
